@@ -1,0 +1,206 @@
+/************
+
+coslide
+
+Xaringan slides theme for Cabinet Office
+
+Adapted from Matt Dray's {gdstheme} https://github.com/matt-dray/gdstheme
+
+/************
+
+/* Text slide (default) */
+
+.remark-slide-content {
+  background-color: #fff;          /* grey background */
+  color: #4d4e53;                        /* black text */
+  border-bottom: 50px solid #005abb;  /* blue bottom border */
+  font-size: 30px;                    /* regular text size */
+  padding: 0 60px 0 60px;             /* space on top, left, right, bottom*/
+}
+
+/* Heading slide (inverse) */
+
+.heading-slide {
+  background-color: #005abb;  /* blue background */
+  color: #fff;                /* white text*/
+  text-shadow: 0 0 0;         /* no text shadow */
+  border-bottom: 0;           /* no border */
+  font-size: 90px;            /* large text size */
+  font-weight: bold;          /* headings are bold */
+}
+
+/* Title slide */
+
+.title-slide {
+  background-color: #005abb;  /* grey background */
+  color: #fff;                /* black text */
+  border-bottom: 0;           /* no border */
+  text-shadow: 0 0 0;         /* no text shadow */
+
+  font-size: 50px;            /* intermediate text size */
+  font-weight: normal;        /* not bold */
+  line-height: 15pt;          /* separation between lines of text */
+}
+
+
+.title-text {
+  font-size: 1.75em;
+  padding-bottom: 0.5em;
+}
+
+.title-sub {
+  font-size: 0.75em;
+  padding-bottom: 0.5em;
+}
+
+.title-spacer {
+  height: 1em;
+  border-top: 3px solid #fff;
+  width: 100%;
+  display: inline-block;
+}
+
+.title-presenter, .title-date {
+  font-size: 0.6em;
+  line-height: 0.6em;
+}
+
+.title-presenter, .title-date {
+  font-size: 0.6em;
+  line-height: 0.6em;
+}
+
+
+/* Code blocks */
+
+.remark-code {
+  background: #f8f8f8;
+  border-radius: 10px;
+  padding: 1px;
+}
+
+/* Inline code */
+
+.remark-inline-code{
+  background: #f8f8f8;
+  border-radius: 10px;
+  padding: 1px;
+}
+
+/* Hyperlinks */
+
+a, a > code {
+  color: #5bb4e5;              /* hyperlinks are blue */
+  text-decoration: underline;  /* hyperlinks are underlined */
+}
+
+/* Slide numbers */
+
+.remark-slide-number {
+  display: none;  /* remove them */
+}
+
+/* Footnotes */
+
+.footnote {
+  position: absolute;
+  bottom: 3em;
+  padding-right: 4em;
+  font-size: 90%;
+}
+
+/* Code highlighting */
+
+.remark-code-line-highlighted { background-color: #ffff88; }
+
+/* Two-column layout */
+
+.left-column {
+  color: #777;
+  width: 20%;
+  height: 92%;
+  float: left;
+}
+
+.left-column h2:last-of-type, .left-column h3:last-child {
+  color: #4d4e53;
+}
+
+.right-column {
+  width: 75%;
+  float: right;
+  padding-top: 1em;
+}
+
+.pull-left {
+  float: left;
+  width: 37%;
+}
+
+.pull-right {
+  float: right;
+  width: 57%;
+}
+
+.pull-right ~ * {
+  clear: both;
+}
+
+/* Media insertion*/
+
+img, video, iframe {
+  max-width: 100%;
+}
+
+/* Blockquote */
+
+blockquote {
+  border-left: solid 5px lightgray;
+  padding-left: 1em;
+}
+
+/* Tables */
+
+.remark-slide table {
+  margin: auto;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
+}
+
+.remark-slide table thead th { border-bottom: 1px solid #ddd; }
+
+th, td { padding: 5px; }
+
+.remark-slide thead, .remark-slide tfoot, .remark-slide tr:nth-child(even) {
+  background: #eee
+}
+
+/* Extra tags */
+
+.black { color: #4d4e53; }       /* black text intended for heading contrast */
+.bold { font-weight: bold; }  /* bold for speaker's name on first/last slides */
+
+/* Can leave this alone */
+
+@page { margin: 0; }
+@media print {
+  .remark-slide-scaler {
+    width: 100% !important;
+    height: 100% !important;
+    transform: scale(1) !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+}
+
+pre {
+  white-space: pre-wrap;
+}
+
+.pull-left .remark-code-line {
+  font-size: 12px;
+  font-weight: 600;
+}

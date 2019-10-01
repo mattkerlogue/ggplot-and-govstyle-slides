@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>ggplot_and_govstyle_slides.utf8.md</title>
+    <meta charset="utf-8" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="coslide.css" type="text/css" />
+    <link rel="stylesheet" href="coslide-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+class: title-slide, middle, right
+
+.title-text[ggplot and govstyle]
+
+.title-sub[Making charts in R]
+
+.title-spacer[]
+
+.title-presenter[Matt Kerlogue]
+
+.title-date[04 October 2019]
+
+---
+
+# Introducing ggplot
+
+.pull-left[
+[ggplot](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
+
+Created and curated as part of the [tidyverse](https://www.tidyverse.org), *but* it uses **+** rather than **%&gt;%** to join elements.
+
+The best way to think about constructing a `ggplot` is as a series of additive layers.
+]
+
+--
+.pull-right[
+
+```r
+ggplot(data, aes(x = groups, y = value)) +
+```
+]
+
+---
+
+# Introducing ggplot
+
+.pull-left[
+[ggplot](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
+
+Created and curated as part of the [tidyverse](https://www.tidyverse.org), *but* it uses **+** rather than **%&gt;%** to join elements.
+
+The best way to think about constructing a `ggplot` is as a series of additive layers.
+]
+
+.pull-right[
+
+```r
+ggplot(data, aes(x = groups, y = value)) +
+  geom_col()
+```
+]
+
+
+---
+
+# Introducing ggplot
+
+.pull-left[
+[ggplot](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
+
+Created and curated as part of the [tidyverse](https://www.tidyverse.org), *but* it uses **+** rather than **%&gt;%** to join elements.
+
+The best way to think about constructing a `ggplot` is as a series of additive layers.
+]
+
+.pull-right[
+
+```r
+ggplot(data, aes(x = groups, y = value)) +
+  geom_col()
+```
+
+
+```r
+ggplot(data, aes(x = groups, y = value)) +
+  geom_col(fill = "blue") +
+  coord_flip() +
+  theme_gov()
+```
+
+
+]
+
+
+---
+
+# Introducing ggplot
+
+.pull-left[
+[ggplot](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
+
+Created and curated as part of the [tidyverse](https://www.tidyverse.org), *but* it uses **+** rather than **%&gt;%** to join elements.
+
+The best way to think about constructing a `ggplot` is as a series of additive layers.
+]
+
+.pull-right[
+
+```r
+ggplot(data, aes(x = groups, y = value)) +
+  geom_col()
+```
+
+
+```r
+ggplot(data, aes(x = groups, y = value)) +
+  geom_col(fill = "blue") +
+  coord_flip() +
+  theme_gov()
+```
+
+
+1. Initate the plot
+1. Add plot layer(s) [geoms]
+1. Add layout/theme
+
+]
+
+---
+
+# First things first... your data
+
+.pull-left[
+Most of us are used to making charts in Excel and not being too bothered about whether our plot data is structured.
+
+Creating graphs through code requires a bit more care and attention to the underlying structure of your data.
+
+]
+
+--
+
+.pull-right[
+
+
+```r
+| Year   | CO     | DFT    | HMT    |
+|--------|--------|--------|--------|
+| 2016   | 50%    | 48%    | 56%    |
+| 2017   | 54%    | 44%    | 59%    |
+| 2018   | 47%    | 50%    | 62%    |
+| 2019   | 53%    | 55%    | 57%    |
+```
+
+
+```r
+| ID  | Name       | Maths | English | Science | Art |
+|-----|------------|-------|---------|---------|-----|
+| 001 | Lala       | A     | B       | B       | C   |
+| 002 | Po         | B     | C       | B       | B   | 
+| 003 | Dipsy      | B     | A       | C       | C   |
+| 004 | TinkyWinky | C     | A       | B       | A   |
+```
+
+
+]
+
+---
+
+# First things first... your data
+
+.pull-left[
+The previous tables were "wide". `ggplot` works best with "long" data, especially if you want to visualise different groups.
+]
+
+--
+
+.pull-right[
+
+
+```r
+| ID  | Class   | Grade |    | ID  | Class   | Grade |
+|-----|---------|-------|    |-----|---------|-------|
+| 001 | Maths   | A     |    | 003 | Maths   | B     |
+| 001 | English | B     |    | 003 | English | A     |
+| 001 | Science | B     |    | 003 | Science | C     |
+| 001 | Art     | C     |    | 003 | Art     | C     |
+| 002 | Maths   | B     |    | 004 | Maths   | C     |
+| 002 | English | C     |    | 004 | English | A     |
+| 002 | Science | B     |    | 004 | Science | B     |
+| 002 | Art     | B     |    | 004 | Art     | A     |
+```
+
+]
+
+---
+
+# First things first... your data
+
+.pull-left[
+The previous tables were "wide". `ggplot` works best with "long" data, especially if you want to visualise different groups.
+]
+
+.pull-right[
+
+
+```r
+| ID  | Class   | Grade |    | ID  | Class   | Grade |
+|-----|---------|-------|    |-----|---------|-------|
+| 001 | Maths   | A     |    | 003 | Maths   | B     |
+| 001 | English | B     |    | 003 | English | A     |
+| 001 | Science | B     |    | 003 | Science | C     |
+| 001 | Art     | C     |    | 003 | Art     | C     |
+| 002 | Maths   | B     |    | 004 | Maths   | C     |
+| 002 | English | C     |    | 004 | English | A     |
+```
+
+
+```r
+| Class   | PercentA |
+|---------|----------|
+| Maths   | 25%      |
+| English | 50%      |
+| Science |  0%      |
+| Art     | 25%      |
+```
+
+]
+
+
+---
+
+# Second things second... remember layers
+
+---
+
+![](https://66.media.tumblr.com/16c5cdbfb34827365a1c7f884eabd3fd/ce8844e5c94f39b5-45/s1280x1920/01796eaf666d47b4738050a22e8ec2a54c574d45.png)
+
+---
+
+# Second things second... remember layers
+
+.pull-left[`ggplot` is additive, when you read/write `+` in your code think of it as 'and then'. And, always use a new line after the `+`.
+
+This way you'll remember that each layer builds on the previous one.]
+
+--
+
+.pull-right[
+
+```r
+ggplot(data, aes(x = groups, y = value)) +
+  geom_line(colour = "red") +
+  geom_col(fill = "blue") +
+  coord_flip() +
+  theme_gov()
+```
+]
+
+---
+
+# Second things second... remember layers
+
+.pull-left[`ggplot` is additive, when you read/write `+` in your code think of it as 'and then'. And, always use a new line after the `+`.
+
+This way you'll remember that each layer builds on the previous one.]
+
+.pull-right[
+
+```r
+ggplot(data, aes(x = groups, y = value)) +
+* geom_line(colour = "red") +
+* geom_col(fill = "blue") +
+  coord_flip() +
+  theme_gov()
+```
+
+Here the columns will be drawn after, and over the top of, the line. Is that really what we want to do?
+]
+
+---
+
+# The data we'll be using
+
+
+.pull-left[
+We'll be using the Cabinet Office's [FOI Statistics (Q2 2019 release)](https://www.gov.uk/government/statistics/freedom-of-information-statistics-april-to-june-2019). Specifically, the [published data](https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/831758/foi-statistics-q2-2019-published-data.csv/preview) csv.
+]
+
+.pull-right[
+![](imgs/foi_stats_q2_q2019_cover.png)
+]
+
+
+---
+
+
+
+```r
+# raw_data &lt;- read_csv("https://assets.publishing.service.gov.uk/government/
+#                       uploads/system/uploads/attachment_data/file/831758/
+#                       foi-statistics-q2-2019-published-data.csv") %&gt;% 
+#               janitor::clean_names()
+
+data &lt;- raw_data %&gt;%
+  select(quarter, government_body, total_requests_received, total_resolvable_requests,
+         starts_with("initial_outcome")) %&gt;%
+    mutate(acronym = map_chr(str_extract_all(government_body, "[A-Z]"), ~paste0(., collapse = "")))
+```
+
+
+```
+## Observations: 1,985
+## Variables: 9
+## $ quarter                                   &lt;chr&gt; "Q2 2019", "Q2 2019", …
+## $ government_body                           &lt;chr&gt; "Attorney General's Of…
+## $ total_requests_received                   &lt;dbl&gt; 50, 191, 186, 35, 344,…
+## $ total_resolvable_requests                 &lt;dbl&gt; 13, 154, 154, 31, 219,…
+## $ initial_outcome_granted_in_full           &lt;dbl&gt; 8, 54, 45, 7, 68, 39, …
+## $ initial_outcome_partially_withheld        &lt;dbl&gt; 2, 24, 44, 12, 21, 12,…
+## $ initial_outcome_fully_withheld            &lt;dbl&gt; 3, 62, 64, 12, 83, 62,…
+## $ initial_outcome_response_not_yet_provided &lt;dbl&gt; 0, 14, 1, 0, 47, 1, 1,…
+## $ acronym                                   &lt;chr&gt; "AGO", "DBEIS", "CC", …
+```
+
+---
+
+
+```r
+gdat &lt;- data %&gt;% 
+  filter (quarter == "Q2 2019", total_requests_received &gt;100) %&gt;%
+  arrange(total_requests_received)
+
+gdat
+```
+
+```
+## # A tibble: 21 x 9
+##    quarter government_body total_requests_… total_resolvabl…
+##    &lt;chr&gt;   &lt;chr&gt;                      &lt;dbl&gt;            &lt;dbl&gt;
+##  1 Q2 2019 Office for Sta…              107               79
+##  2 Q2 2019 Department for…              118               71
+##  3 Q2 2019 Office of Gas …              141              135
+##  4 Q2 2019 Crown Prosecut…              150              114
+##  5 Q2 2019 Department for…              168              118
+##  6 Q2 2019 Department of …              182              105
+##  7 Q2 2019 Charity Commis…              186              154
+##  8 Q2 2019 Department for…              191              154
+##  9 Q2 2019 Ministry of Ho…              221              175
+## 10 Q2 2019 HM Treasury                  224              144
+## # … with 11 more rows, and 5 more variables:
+## #   initial_outcome_granted_in_full &lt;dbl&gt;,
+## #   initial_outcome_partially_withheld &lt;dbl&gt;,
+## #   initial_outcome_fully_withheld &lt;dbl&gt;,
+## #   initial_outcome_response_not_yet_provided &lt;dbl&gt;, acronym &lt;chr&gt;
+```
+
+---
+
+.pull-left[
+
+
+```r
+ggplot()
+```
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat)
+```
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat) +
+  geom_col(aes(x = acronym, 
+               y = total_requests_received))
+```
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat) +
+  geom_col(aes(x = reorder(acronym,
+                           -total_requests_received), 
+               y = total_requests_received)) +
+```
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

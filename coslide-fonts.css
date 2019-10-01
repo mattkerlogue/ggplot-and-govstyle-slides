@@ -1,0 +1,65 @@
+/************
+
+coslide
+
+Xaringan slides theme for Cabinet Office
+
+Adapted from Matt Dray's {gdstheme} https://github.com/matt-dray/gdstheme
+
+/************
+
+/* Import from Google Fonts */
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:300,bold');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:300,800');
+@import url('https://fonts.googleapis.com/css?family=Raleway:600,300,800');
+
+/* Sans serif body text */
+
+body {
+  font-family: 'Roboto Slab', sans-serif;
+  sans-serif; font-weight: 300;
+}
+
+.remark-slide-content > h1 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+}
+
+.remark-slide-content > h2 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+}
+
+.remark-slide-content > h3 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+}
+
+.remark-slide-content > h4 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+}
+
+/* Monospace script */
+
+.remark-code, .remark-inline-code {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 300;
+}
+
+.title-text {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+}
+
+.title-sub {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+}
+
+.title-presenter .title-date {
+  font-family: 'Roboto Slab', sans-serif;
+  font-weight: 300;
+}
