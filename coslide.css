@@ -14,7 +14,7 @@ Adapted from Matt Dray's {gdstheme} https://github.com/matt-dray/gdstheme
   background-color: #fff;          /* grey background */
   color: #4d4e53;                        /* black text */
   border-bottom: 50px solid #005abb;  /* blue bottom border */
-  font-size: 30px;                    /* regular text size */
+  font-size: 20px;                    /* regular text size */
   padding: 0 60px 0 60px;             /* space on top, left, right, bottom*/
 }
 
@@ -198,6 +198,10 @@ th, td { padding: 5px; }
 
 pre {
   white-space: pre-wrap;
+}
+
+.small {
+  font-size: 12px;
 }
 
 .pull-left .remark-code-line {

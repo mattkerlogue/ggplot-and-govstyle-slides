@@ -333,25 +333,19 @@ gdat &lt;- data %&gt;%
   filter (quarter == "Q2 2019", total_requests_received &gt;100) %&gt;%
   arrange(total_requests_received)
 
-gdat
+head(gdat, 5)
 ```
 
 ```
-## # A tibble: 21 x 9
-##    quarter government_body total_requests_… total_resolvabl…
-##    &lt;chr&gt;   &lt;chr&gt;                      &lt;dbl&gt;            &lt;dbl&gt;
-##  1 Q2 2019 Office for Sta…              107               79
-##  2 Q2 2019 Department for…              118               71
-##  3 Q2 2019 Office of Gas …              141              135
-##  4 Q2 2019 Crown Prosecut…              150              114
-##  5 Q2 2019 Department for…              168              118
-##  6 Q2 2019 Department of …              182              105
-##  7 Q2 2019 Charity Commis…              186              154
-##  8 Q2 2019 Department for…              191              154
-##  9 Q2 2019 Ministry of Ho…              221              175
-## 10 Q2 2019 HM Treasury                  224              144
-## # … with 11 more rows, and 5 more variables:
-## #   initial_outcome_granted_in_full &lt;dbl&gt;,
+## # A tibble: 5 x 9
+##   quarter government_body total_requests_… total_resolvabl…
+##   &lt;chr&gt;   &lt;chr&gt;                      &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Q2 2019 Office for Sta…              107               79
+## 2 Q2 2019 Department for…              118               71
+## 3 Q2 2019 Office of Gas …              141              135
+## 4 Q2 2019 Crown Prosecut…              150              114
+## 5 Q2 2019 Department for…              168              118
+## # … with 5 more variables: initial_outcome_granted_in_full &lt;dbl&gt;,
 ## #   initial_outcome_partially_withheld &lt;dbl&gt;,
 ## #   initial_outcome_fully_withheld &lt;dbl&gt;,
 ## #   initial_outcome_response_not_yet_provided &lt;dbl&gt;, acronym &lt;chr&gt;
@@ -365,6 +359,9 @@ gdat
 ```r
 ggplot()
 ```
+
+.small[The fundamentals of a plot are a call to `ggplot()`, from the {ggplot2} pacakge.]
+
 ]
 
 .pull-right[
@@ -376,8 +373,11 @@ ggplot()
 .pull-left[
 
 ```r
-ggplot(gdat)
+*ggplot(gdat)
 ```
+
+.small[The next thing is to provide data for the plot... but this still won't draw anything.]
+
 ]
 
 .pull-right[
@@ -390,9 +390,12 @@ ggplot(gdat)
 
 ```r
 ggplot(gdat) +
-  geom_col(aes(x = acronym, 
-               y = total_requests_received))
+* geom_col(aes(x = acronym,
+*              y = total_requests_received))
 ```
+
+.small[To draw data you need to add (with a plus, like in maths) a `geom` (a geometric layer). A `geom` requires data (unless otherwise sepcified it inherits the data from the `ggplot()` call) and a mapping (which provides a set of aesthetics, through the `aes(...)` function)]
+
 ]
 
 .pull-right[
@@ -405,14 +408,217 @@ ggplot(gdat) +
 
 ```r
 ggplot(gdat) +
-  geom_col(aes(x = reorder(acronym,
-                           -total_requests_received), 
-               y = total_requests_received)) +
+  geom_col(aes(
+*   x = reorder(acronym, -total_requests_received),
+    y = total_requests_received))
 ```
+
+.small[`ggplot` will sort character variables alphabetically, you either need to convert or coerce them into a factor that you can then order, the easiest way is to use the `reorder()` command, but more complex methods exist via the {forcats} package.]
+
 ]
 
 .pull-right[
 ![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received)) +
+* labs(title = "FOI Statistics Q2 2019",
+*      x = "Government Body",
+*      y = "Total Request Received")
+```
+
+.small[Having created the plot we now we can add labels.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received)) +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+* theme_light()
+```
+
+.small[`ggplot` includes some built in themes that we can add to our plot]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-29-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received)) +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_light() +
+* theme(plot.title = element_text(face = "bold"),
+*       axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+.small[We can also add specific additional theme elements via the `theme()` function. This function can be used to create a complete theme from scratch.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-31-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# govstyle
+
+.pull-left[
+[`govstyle`](http://ukgovdatascience.github.io/govstyle/) is a package developed by GDS to provide a GOV.UK style theme for ggplot, it's still in development. It has two main components `theme_gov()`, a function to add a theme to a plot; and, `gov_cols` a named vector of hexadecimal colour codes that allows you to access the (old) GOV.UK standard colour palette
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-32-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received)) +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+* theme_gov() +
+  theme(axis.text.x = 
+          element_text(angle = 90, hjust = 1))
+```
+
+.small[To use `govstyle` you can install it by calling `remotes::install_github('ukgovdatascience/govstyle')` and then accessing as standard via a `library(govstyle)` call. We can then add `theme_gov()` to our plot.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-34-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received)) +
+* geom_text(aes(x = acronym,
+*               y = total_requests_received,
+*               label = total_requests_received)) +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_gov() + 
+  theme(axis.text.x = 
+          element_text(angle = 90, hjust = 1))
+```
+
+.small[We add data labels as their own layer, through `geom_text()`.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-36-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received)) +
+  geom_text(aes(x = acronym,
+                y = total_requests_received,
+                label = total_requests_received),
+            size = 3, nudge_y = 45, 
+*           colour = "gray40") +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_gov() + 
+  theme(axis.text.x = 
+          element_text(angle = 90, hjust = 1))
+```
+
+.small[`geom_text` also allows us to modify the styling of the labels.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-38-1.png)&lt;!-- --&gt;
+]
+
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received),
+*   fill = gov_cols['grass_green']) +
+  geom_text(aes(x = acronym,
+                y = total_requests_received,
+                label = total_requests_received),
+            size = 3, nudge_y = 45, 
+            colour = "gray40") +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_gov() + 
+  theme(axis.text.x = 
+          element_text(angle = 90, hjust = 1))
+```
+
+.small[In `geom_col` we can also specify the colour of the bars, so they look a bit nicer, let's use "grass green" from the `gov_cols` palette.
+
+**And there we have it... a publication quality GOV.UK stylised chart.**]
+
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-40-1.png)&lt;!-- --&gt;
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

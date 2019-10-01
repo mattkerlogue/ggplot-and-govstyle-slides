@@ -286,10 +286,11 @@ We'll be using the Cabinet Office's [FOI Statistics (Q2 2019 release)](https://w
 ``` {r, include=FALSE}
 
 library(tidyverse)
+library (govstyle)
 library(DT)
 
-raw_data <- suppressMessages(suppressWarnings(read_csv("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/831758/foi-statistics-q2-2019-published-data.csv") %>%
-  janitor::clean_names()))
+raw_data <- read_csv("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/831758/foi-statistics-q2-2019-published-data.csv") %>%
+  janitor::clean_names()
 
 ```
 
@@ -317,7 +318,7 @@ gdat <- data %>%
   filter (quarter == "Q2 2019", total_requests_received >100) %>%
   arrange(total_requests_received)
 
-gdat
+head(gdat, 5)
 ```
 
 ---
@@ -327,6 +328,9 @@ gdat
 ``` {r, eval=FALSE}
 ggplot()
 ```
+
+.small[The fundamentals of a plot are a call to `ggplot()`, from the {ggplot2} pacakge.]
+
 ]
 
 .pull-right[
@@ -339,8 +343,11 @@ ggplot()
 
 .pull-left[
 ``` {r, eval=FALSE}
-ggplot(gdat)
+ggplot(gdat) #<<
 ```
+
+.small[The next thing is to provide data for the plot... but this still won't draw anything.]
+
 ]
 
 .pull-right[
@@ -354,9 +361,12 @@ ggplot(gdat)
 .pull-left[
 ``` {r, eval=FALSE}
 ggplot(gdat) +
-  geom_col(aes(x = acronym, 
-               y = total_requests_received))
+  geom_col(aes(x = acronym,                   #<<
+               y = total_requests_received))  #<<
 ```
+
+.small[To draw data you need to add (with a plus, like in maths) a `geom` (a geometric layer). A `geom` requires data (unless otherwise sepcified it inherits the data from the `ggplot()` call) and a mapping (which provides a set of aesthetics, through the `aes(...)` function)]
+
 ]
 
 .pull-right[
@@ -371,11 +381,14 @@ ggplot(gdat) +
 .pull-left[
 ``` {r, eval=FALSE}
 ggplot(gdat) +
-  geom_col(aes(x = reorder(acronym,
-                           -total_requests_received), 
-               y = total_requests_received)) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received), #<<
+    y = total_requests_received))
   
 ```
+
+.small[`ggplot` will sort character variables alphabetically, you either need to convert or coerce them into a factor that you can then order, the easiest way is to use the `reorder()` command, but more complex methods exist via the {forcats} package.]
+
 ]
 
 .pull-right[
@@ -385,4 +398,286 @@ ggplot(gdat) +
                y = total_requests_received))
 ```
 ]
+
+---
+
+.pull-left[
+``` {r, eval=FALSE}
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received)) +
+  labs(title = "FOI Statistics Q2 2019",     #<<
+       x = "Government Body",                #<<
+       y = "Total Request Received")         #<<
+```
+
+.small[Having created the plot we now we can add labels.]
+
+]
+
+.pull-right[
+``` {r, echo=FALSE}
+ggplot(gdat) +
+  geom_col(aes(x = reorder(acronym, -total_requests_received),
+               y = total_requests_received)) +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received")
+```
+]
+
+---
+
+.pull-left[
+``` {r, eval=FALSE}
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received)) +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_light()  #<<
+```
+
+.small[`ggplot` includes some built in themes that we can add to our plot]
+
+]
+
+.pull-right[
+``` {r, echo=FALSE}
+ggplot(gdat) +
+  geom_col(aes(x = reorder(acronym, -total_requests_received),
+               y = total_requests_received)) +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_light()
+```
+]
+
+---
+
+.pull-left[
+``` {r, eval=FALSE}
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received)) +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_light() +
+  theme(plot.title = element_text(face = "bold"),             #<<
+        axis.text.x = element_text(angle = 90, hjust = 1))    #<<
+```
+
+.small[We can also add specific additional theme elements via the `theme()` function. This function can be used to create a complete theme from scratch.]
+
+]
+
+.pull-right[
+``` {r, echo=FALSE}
+ggplot(gdat) +
+  geom_col(aes(x = reorder(acronym, -total_requests_received),
+               y = total_requests_received)) +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_light() +
+  theme(plot.title = element_text(face = "bold"),
+        axis.text.x = 
+          element_text(angle = 90, hjust = 1))
+```
+]
+
+---
+
+# govstyle
+
+.pull-left[
+[`govstyle`](http://ukgovdatascience.github.io/govstyle/) is a package developed by GDS to provide a GOV.UK style theme for ggplot, it's still in development. It has two main components `theme_gov()`, a function to add a theme to a plot; and, `gov_cols` a named vector of hexadecimal colour codes that allows you to access the (old) GOV.UK standard colour palette
+]
+
+.pull-right[
+``` {r, echo=FALSE, fig.height=6, fig.width=8}
+
+colour_dt <- tibble(
+  y = 1,
+  colour = names(gov_cols),
+)
+
+ggplot(colour_dt) +
+  geom_point(aes(y = 1, x = 1, 
+                 colour = colour),
+             shape = 15, show.legend = FALSE, size = 20) +
+  facet_wrap(~colour) +
+  scale_colour_manual(values = gov_cols) +
+  labs(title = "gov_cols[...]") +
+  theme_void() +
+  theme(plot.title = element_text(face = "bold", margin = margin(0,0,10,0)))
+
+```
+]
+
+---
+
+.pull-left[
+``` {r, eval=FALSE}
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received)) +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_gov() +    #<<
+  theme(axis.text.x = 
+          element_text(angle = 90, hjust = 1))
+```
+
+.small[To use `govstyle` you can install it by calling `remotes::install_github('ukgovdatascience/govstyle')` and then accessing as standard via a `library(govstyle)` call. We can then add `theme_gov()` to our plot.]
+
+]
+
+.pull-right[
+``` {r, echo=FALSE}
+ggplot(gdat) +
+  geom_col(aes(x = reorder(acronym, -total_requests_received),
+               y = total_requests_received)) +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_gov() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+]
+
+---
+
+.pull-left[
+``` {r, eval=FALSE}
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received)) +
+  geom_text(aes(x = acronym,                         #<<
+                y = total_requests_received,         #<<
+                label = total_requests_received)) +  #<<
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_gov() + 
+  theme(axis.text.x = 
+          element_text(angle = 90, hjust = 1))
+```
+
+.small[We add data labels as their own layer, through `geom_text()`.]
+
+]
+
+.pull-right[
+``` {r, echo=FALSE}
+ggplot(gdat) +
+  geom_col(aes(x = reorder(acronym, -total_requests_received),
+               y = total_requests_received)) +
+  geom_text(aes(x = acronym, y = total_requests_received, 
+                label = total_requests_received)) +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_gov() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+]
+
+---
+
+.pull-left[
+``` {r, eval=FALSE}
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received)) +
+  geom_text(aes(x = acronym,
+                y = total_requests_received,
+                label = total_requests_received),
+            size = 3, nudge_y = 45, 
+            colour = "gray40") +  #<<
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_gov() + 
+  theme(axis.text.x = 
+          element_text(angle = 90, hjust = 1))
+```
+
+.small[`geom_text` also allows us to modify the styling of the labels.]
+
+]
+
+.pull-right[
+``` {r, echo=FALSE}
+ggplot(gdat) +
+  geom_col(aes(x = reorder(acronym, -total_requests_received),
+               y = total_requests_received)) +
+  geom_text(aes(x = acronym, y = total_requests_received, 
+                label = total_requests_received),
+            size = 3, nudge_y = 45, colour = "gray40") +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_gov() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+]
+
+
+---
+
+.pull-left[
+``` {r, eval=FALSE}
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received),
+    fill = gov_cols['grass_green']) +              #<<
+  geom_text(aes(x = acronym,
+                y = total_requests_received,
+                label = total_requests_received),
+            size = 3, nudge_y = 45, 
+            colour = "gray40") +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_gov() + 
+  theme(axis.text.x = 
+          element_text(angle = 90, hjust = 1))
+```
+
+.small[In `geom_col` we can also specify the colour of the bars, so they look a bit nicer, let's use "grass green" from the `gov_cols` palette.
+
+**And there we have it... a publication quality GOV.UK stylised chart.**]
+
+
+]
+
+.pull-right[
+``` {r, echo=FALSE}
+ggplot(gdat) +
+  geom_col(aes(x = reorder(acronym, -total_requests_received),
+               y = total_requests_received),
+           fill = gov_cols['grass_green']) +
+  geom_text(aes(x = acronym, y = total_requests_received, 
+                label = total_requests_received),
+            size = 3, nudge_y = 45, colour = "gray40") +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_gov() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+]
+
 
