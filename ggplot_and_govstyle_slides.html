@@ -1030,7 +1030,7 @@ ggplot(gdat3) +
     legend.key = element_rect(fill = NA))
 ```
 
-.small[The `scale_gov()` function from {govstyle} allows you to automatically apply the `govcols` palette to either the fill or colour grouping rather writing a custom call to `scale_*_manual()` as shown in the stacked bar chart.]
+.small[The `scale\_gov()` function from {govstyle} allows you to automatically apply the `govcols` palette to either the fill or colour grouping rather writing a custom call to `scale\_*\_manual()` as shown in the stacked bar chart.]
 
 ]
 
@@ -1075,6 +1075,87 @@ ggplot(gdat3) +
 .pull-right[
 ![](ggplot_and_govstyle_slides_files/figure-html/line_5p-1.png)&lt;!-- --&gt;
 ]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat3) +
+* geom_hline(yintercept =
+*              c(0.25, 0.5, 0.75, 1),
+*            colour = "gray90") +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+  geom_point(aes(x = quarter,                  
+                 y = perc_resolvable,          
+                 colour = government_body),    
+             size - 0.75) +                    
+  scale_y_continuous(limits = c(0,1),
+                     labels = scales::percent) +
+  scale_gov("colour") +                           
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  guides(colour = guide_legend(
+    nrow = 2, byrow = TRUE)) +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.key = element_rect(fill = NA))
+```
+
+.small[Adding a call to `geom_hline()` allows us to add horizontal lines to the plot. Remember ggplot layering - we've put these before all the other elements so that they're drawn first.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/line_6p-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Summary
+
+.pull-left[
+`ggplot2` is a highly extensive graphing package for R, and `govstyle` provides a GOV.UK style theme for ggplot2 charts. These slides have shown only a small fraction of what you can achieve by using `ggplot2` - there are 48 separate `geom\_*()` functions, 94 separate `scale\_*()` functions, and 208 other functions.
+
+Creating graphs through code requires more careful consideration of your data than making a chart in Excel. But the pay-offs can be significant.
+]
+
+--
+
+.pull-right[
+It's good practice to implement a clear and coherent structure for your ggplot code - this way you can easily understand what's happening when you come back to it.
+
+Call `ggplot()`, then:
+
+* *add* graphical layers with `geom_*()` functions
+* *add* scale definitions/modifers
+* *add* labels (and guides)
+* *add* theme components
+
+]
+
+---
+
+# Further reading/resources
+
+* Gina Reynolds' excellent [ggplot flipbook](https://evamaerey.github.io/ggplot_flipbook/ggplot_flipbook_xaringan.html), the inspiration for these slides
+
+* The `ggplot2` [reference](https://ggplot2.tidyverse.org/reference/index.html) documentation
+
+* The [data visualisation](https://r4ds.had.co.nz/data-visualisation.html) chapter of Hadley Wickham's *R for Data Science*
+
+* Hadley's [Layered Grammar of Graphics](http://vita.had.co.nz/papers/layered-grammar.pdf) paper
+
+* The [`ggplotly()`](https://plot.ly/ggplot2/) function of the `plotly` package that transforms ggplots into interactive charts
+
+* The [R Graph Gallery](https://www.r-graph-gallery.com/) which uses `ggplot2` for many of its examples
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
