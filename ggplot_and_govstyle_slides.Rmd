@@ -9,11 +9,12 @@ output:
       highlightLines: true
       countIncrementalSlides: false
       ratio: "16:9"
+
 ---
 
 class: title-slide, middle, right
 
-.title-text[ggplot and govstyle]
+.title-text[ggplot2 and govstyle]
 
 .title-sub[Making charts in R]
 
@@ -25,37 +26,37 @@ class: title-slide, middle, right
 
 ---
 
-# Introducing ggplot
+# Introducing ggplot2
 
 .pull-left[
-[ggplot](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
+[ggplot2](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
 
 Created and curated as part of the [tidyverse](https://www.tidyverse.org), *but* it uses **+** rather than **%>%** to join elements.
 
-The best way to think about constructing a `ggplot` is as a series of additive layers.
+The best way to think about constructing a "ggplot" is as a series of additive layers.
 ]
 
 --
 .pull-right[
-```{r, eval=FALSE}
+```{r ggintro, eval=FALSE}
 ggplot(data, aes(x = groups, y = value)) +
 ```
 ]
 
 ---
 
-# Introducing ggplot
+# Introducing ggplot2
 
 .pull-left[
-[ggplot](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
+[ggplot2](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
 
 Created and curated as part of the [tidyverse](https://www.tidyverse.org), *but* it uses **+** rather than **%>%** to join elements.
 
-The best way to think about constructing a `ggplot` is as a series of additive layers.
+The best way to think about constructing a "ggplot" is as a series of additive layers.
 ]
 
 .pull-right[
-```{r, eval=FALSE}
+```{r ggintro2, eval=FALSE}
 ggplot(data, aes(x = groups, y = value)) +
   geom_col()
 ```
@@ -64,23 +65,23 @@ ggplot(data, aes(x = groups, y = value)) +
 
 ---
 
-# Introducing ggplot
+# Introducing ggplot2
 
 .pull-left[
-[ggplot](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
+[ggplot2](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
 
 Created and curated as part of the [tidyverse](https://www.tidyverse.org), *but* it uses **+** rather than **%>%** to join elements.
 
-The best way to think about constructing a `ggplot` is as a series of additive layers.
+The best way to think about constructing a "ggplot" is as a series of additive layers.
 ]
 
 .pull-right[
-```{r, eval=FALSE}
+```{r ggintro3, eval=FALSE}
 ggplot(data, aes(x = groups, y = value)) +
   geom_col()
 ```
 
-```{r, eval=FALSE}
+```{r ggintro4, eval=FALSE}
 ggplot(data, aes(x = groups, y = value)) +
   geom_col(fill = "blue") +
   coord_flip() +
@@ -93,23 +94,23 @@ ggplot(data, aes(x = groups, y = value)) +
 
 ---
 
-# Introducing ggplot
+# Introducing ggplot2
 
 .pull-left[
-[ggplot](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
+[ggplot2](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
 
 Created and curated as part of the [tidyverse](https://www.tidyverse.org), *but* it uses **+** rather than **%>%** to join elements.
 
-The best way to think about constructing a `ggplot` is as a series of additive layers.
+The best way to think about constructing a "ggplot" is as a series of additive layers.
 ]
 
 .pull-right[
-```{r, eval=FALSE}
+```{r ggintro5, eval=FALSE}
 ggplot(data, aes(x = groups, y = value)) +
   geom_col()
 ```
 
-```{r, eval=FALSE}
+```{r ggintro6, eval=FALSE}
 ggplot(data, aes(x = groups, y = value)) +
   geom_col(fill = "blue") +
   coord_flip() +
@@ -138,7 +139,7 @@ Creating graphs through code requires a bit more care and attention to the under
 
 .pull-right[
 
-```{r, eval=FALSE}
+```{r tblintro1, eval=FALSE}
 | Year   | CO     | DFT    | HMT    |
 |--------|--------|--------|--------|
 | 2016   | 50%    | 48%    | 56%    |
@@ -147,7 +148,7 @@ Creating graphs through code requires a bit more care and attention to the under
 | 2019   | 53%    | 55%    | 57%    |
 ```
 
-```{r, eval=FALSE}
+```{r tblintro2, eval=FALSE}
 | ID  | Name       | Maths | English | Science | Art |
 |-----|------------|-------|---------|---------|-----|
 | 001 | Lala       | A     | B       | B       | C   |
@@ -164,14 +165,14 @@ Creating graphs through code requires a bit more care and attention to the under
 # First things first... your data
 
 .pull-left[
-The previous tables were "wide". `ggplot` works best with "long" data, especially if you want to visualise different groups.
+The previous tables were "wide". A ggplot() chart works best with "long" data, especially if you want to visualise different groups.
 ]
 
 --
 
 .pull-right[
 
-```{r, eval=FALSE}
+```{r tblintro3, eval=FALSE}
 | ID  | Class   | Grade |    | ID  | Class   | Grade |
 |-----|---------|-------|    |-----|---------|-------|
 | 001 | Maths   | A     |    | 003 | Maths   | B     |
@@ -192,12 +193,12 @@ The previous tables were "wide". `ggplot` works best with "long" data, especiall
 # First things first... your data
 
 .pull-left[
-The previous tables were "wide". `ggplot` works best with "long" data, especially if you want to visualise different groups.
+The previous tables were "wide". A ggplot() chart works best with "long" data, especially if you want to visualise different groups.
 ]
 
 .pull-right[
 
-```{r, eval=FALSE}
+```{r tblintro4, eval=FALSE}
 | ID  | Class   | Grade |    | ID  | Class   | Grade |
 |-----|---------|-------|    |-----|---------|-------|
 | 001 | Maths   | A     |    | 003 | Maths   | B     |
@@ -208,7 +209,7 @@ The previous tables were "wide". `ggplot` works best with "long" data, especiall
 | 002 | English | C     |    | 004 | English | A     |
 ```
 
-``` {r, eval=FALSE}
+``` {r tblintro5, eval=FALSE}
 | Class   | PercentA |
 |---------|----------|
 | Maths   | 25%      |
@@ -232,14 +233,14 @@ The previous tables were "wide". `ggplot` works best with "long" data, especiall
 
 # Second things second... remember layers
 
-.pull-left[`ggplot` is additive, when you read/write `+` in your code think of it as 'and then'. And, always use a new line after the `+`.
+.pull-left[`ggplot()` charts are additive, when you read/write `+` in your code think of it as 'and then'. And, always use a new line after the `+`.
 
 This way you'll remember that each layer builds on the previous one.]
 
 --
 
 .pull-right[
-```{r, eval=FALSE}
+```{r gglayer1, eval=FALSE}
 ggplot(data, aes(x = groups, y = value)) +
   geom_line(colour = "red") +
   geom_col(fill = "blue") +
@@ -252,12 +253,12 @@ ggplot(data, aes(x = groups, y = value)) +
 
 # Second things second... remember layers
 
-.pull-left[`ggplot` is additive, when you read/write `+` in your code think of it as 'and then'. And, always use a new line after the `+`.
+.pull-left[`ggplot()` charts are additive, when you read/write `+` in your code think of it as 'and then'. And, always use a new line after the `+`.
 
 This way you'll remember that each layer builds on the previous one.]
 
 .pull-right[
-```{r, eval=FALSE}
+```{r gglayer2, eval=FALSE}
 ggplot(data, aes(x = groups, y = value)) +
   geom_line(colour = "red") +  #<<
   geom_col(fill = "blue") +    #<<
@@ -283,7 +284,7 @@ We'll be using the Cabinet Office's [FOI Statistics (Q2 2019 release)](https://w
 
 
 ---
-``` {r, include=FALSE}
+``` {r setup, include=FALSE}
 
 library(tidyverse)
 library (govstyle)
@@ -294,7 +295,7 @@ raw_data <- read_csv("https://assets.publishing.service.gov.uk/government/upload
 
 ```
 
-```{r echo=TRUE, results='hide'}
+```{r data1, echo=TRUE, results='hide'}
 
 # raw_data <- read_csv("https://assets.publishing.service.gov.uk/government/
 #                       uploads/system/uploads/attachment_data/file/831758/
@@ -307,13 +308,13 @@ data <- raw_data %>%
     mutate(acronym = map_chr(str_extract_all(government_body, "[A-Z]"), ~paste0(., collapse = "")))
 ```
 
-``` {r, echo=FALSE}
+``` {r data2, echo=FALSE}
 glimpse(data)
 ```
 
 ---
 
-``` {r}
+``` {r gdat}
 gdat <- data %>% 
   filter (quarter == "Q2 2019", total_requests_received >100) %>%
   arrange(total_requests_received)
@@ -325,16 +326,18 @@ head(gdat, 5)
 
 .pull-left[
 
-``` {r, eval=FALSE}
+``` {r col_1c, eval=FALSE}
 ggplot()
 ```
 
-.small[The fundamentals of a plot are a call to `ggplot()`, from the {ggplot2} pacakge.]
+.small[The fundamentals of a plot are a call to `ggplot()`, from the {ggplot2} package.
+
+Yes this is confusing. **`ggplot2`** is the package, **`ggplot`** is the function. There is an old (very old) ggplot package, but you shouldn't install or use this.]
 
 ]
 
 .pull-right[
-``` {r, echo=FALSE}
+``` {r col_1p, echo=FALSE}
 ggplot()
 ```
 ]
@@ -342,7 +345,7 @@ ggplot()
 ---
 
 .pull-left[
-``` {r, eval=FALSE}
+``` {r col_2c, eval=FALSE}
 ggplot(gdat) #<<
 ```
 
@@ -351,7 +354,7 @@ ggplot(gdat) #<<
 ]
 
 .pull-right[
-``` {r, echo=FALSE}
+``` {r col_2p, echo=FALSE}
 ggplot(gdat)
 ```
 ]
@@ -359,18 +362,18 @@ ggplot(gdat)
 ---
 
 .pull-left[
-``` {r, eval=FALSE}
+``` {r col_3c, eval=FALSE}
 ggplot(gdat) +
   geom_col(aes(x = acronym,                   #<<
                y = total_requests_received))  #<<
 ```
 
-.small[To draw data you need to add (with a plus, like in maths) a `geom` (a geometric layer). A `geom` requires data (unless otherwise sepcified it inherits the data from the `ggplot()` call) and a mapping (which provides a set of aesthetics, through the `aes(...)` function)]
+.small[To draw data you need to add (with a plus, like in maths) a `geom` (a geometric layer). A `geom` requires data (unless otherwise specified it inherits the data from the `ggplot()` call) and a mapping (which provides a set of aesthetics, through the `aes(...)` function)]
 
 ]
 
 .pull-right[
-``` {r, echo=FALSE}
+``` {r col_3p, echo=FALSE}
 ggplot(gdat) +
   geom_col(aes(x = acronym, y = total_requests_received))
 ```
@@ -379,7 +382,7 @@ ggplot(gdat) +
 ---
 
 .pull-left[
-``` {r, eval=FALSE}
+``` {r col_4c, eval=FALSE}
 ggplot(gdat) +
   geom_col(aes(
     x = reorder(acronym, -total_requests_received), #<<
@@ -387,12 +390,12 @@ ggplot(gdat) +
   
 ```
 
-.small[`ggplot` will sort character variables alphabetically, you either need to convert or coerce them into a factor that you can then order, the easiest way is to use the `reorder()` command, but more complex methods exist via the {forcats} package.]
+.small[`ggplot()` will sort character variables alphabetically, you either need to convert or coerce them into a factor that you can then order, the easiest way is to use the `reorder()` command, but more complex methods exist via the {forcats} package.]
 
 ]
 
 .pull-right[
-``` {r, echo=FALSE}
+``` {r col_4p, echo=FALSE}
 ggplot(gdat) +
   geom_col(aes(x = reorder(acronym, -total_requests_received),
                y = total_requests_received))
@@ -402,7 +405,7 @@ ggplot(gdat) +
 ---
 
 .pull-left[
-``` {r, eval=FALSE}
+``` {r col_5c, eval=FALSE}
 ggplot(gdat) +
   geom_col(aes(
     x = reorder(acronym, -total_requests_received),
@@ -417,7 +420,7 @@ ggplot(gdat) +
 ]
 
 .pull-right[
-``` {r, echo=FALSE}
+``` {r col_5p, echo=FALSE}
 ggplot(gdat) +
   geom_col(aes(x = reorder(acronym, -total_requests_received),
                y = total_requests_received)) +
@@ -430,7 +433,7 @@ ggplot(gdat) +
 ---
 
 .pull-left[
-``` {r, eval=FALSE}
+``` {r col_6c, eval=FALSE}
 ggplot(gdat) +
   geom_col(aes(
     x = reorder(acronym, -total_requests_received),
@@ -446,7 +449,7 @@ ggplot(gdat) +
 ]
 
 .pull-right[
-``` {r, echo=FALSE}
+``` {r col_6p, echo=FALSE}
 ggplot(gdat) +
   geom_col(aes(x = reorder(acronym, -total_requests_received),
                y = total_requests_received)) +
@@ -460,7 +463,7 @@ ggplot(gdat) +
 ---
 
 .pull-left[
-``` {r, eval=FALSE}
+``` {r col_7c, eval=FALSE}
 ggplot(gdat) +
   geom_col(aes(
     x = reorder(acronym, -total_requests_received),
@@ -478,7 +481,7 @@ ggplot(gdat) +
 ]
 
 .pull-right[
-``` {r, echo=FALSE}
+``` {r  col_7p, echo=FALSE}
 ggplot(gdat) +
   geom_col(aes(x = reorder(acronym, -total_requests_received),
                y = total_requests_received)) +
@@ -501,7 +504,7 @@ ggplot(gdat) +
 ]
 
 .pull-right[
-``` {r, echo=FALSE, fig.height=6, fig.width=8}
+``` {r govcols, echo=FALSE, fig.height=6, fig.width=8}
 
 colour_dt <- tibble(
   y = 1,
@@ -524,7 +527,7 @@ ggplot(colour_dt) +
 ---
 
 .pull-left[
-``` {r, eval=FALSE}
+``` {r  col_8c, eval=FALSE}
 ggplot(gdat) +
   geom_col(aes(
     x = reorder(acronym, -total_requests_received),
@@ -542,7 +545,7 @@ ggplot(gdat) +
 ]
 
 .pull-right[
-``` {r, echo=FALSE}
+``` {r  col_8p, echo=FALSE}
 ggplot(gdat) +
   geom_col(aes(x = reorder(acronym, -total_requests_received),
                y = total_requests_received)) +
@@ -557,7 +560,7 @@ ggplot(gdat) +
 ---
 
 .pull-left[
-``` {r, eval=FALSE}
+``` {r  col_9c, eval=FALSE}
 ggplot(gdat) +
   geom_col(aes(
     x = reorder(acronym, -total_requests_received),
@@ -578,7 +581,7 @@ ggplot(gdat) +
 ]
 
 .pull-right[
-``` {r, echo=FALSE}
+``` {r  col_9p, echo=FALSE}
 ggplot(gdat) +
   geom_col(aes(x = reorder(acronym, -total_requests_received),
                y = total_requests_received)) +
@@ -595,7 +598,7 @@ ggplot(gdat) +
 ---
 
 .pull-left[
-``` {r, eval=FALSE}
+``` {r  col_10c, eval=FALSE}
 ggplot(gdat) +
   geom_col(aes(
     x = reorder(acronym, -total_requests_received),
@@ -603,7 +606,7 @@ ggplot(gdat) +
   geom_text(aes(x = acronym,
                 y = total_requests_received,
                 label = total_requests_received),
-            size = 3, nudge_y = 45, 
+            size = 3, nudge_y = 30, 
             colour = "gray40") +  #<<
   labs(title = "FOI Statistics Q2 2019",
        x = "Government Body",
@@ -618,13 +621,13 @@ ggplot(gdat) +
 ]
 
 .pull-right[
-``` {r, echo=FALSE}
+``` {r  col_10p, echo=FALSE}
 ggplot(gdat) +
   geom_col(aes(x = reorder(acronym, -total_requests_received),
                y = total_requests_received)) +
   geom_text(aes(x = acronym, y = total_requests_received, 
                 label = total_requests_received),
-            size = 3, nudge_y = 45, colour = "gray40") +
+            size = 3, nudge_y = 30, colour = "gray40") +
   labs(title = "FOI Statistics Q2 2019",
        x = "Government Body",
        y = "Total Request Received") +
@@ -637,7 +640,7 @@ ggplot(gdat) +
 ---
 
 .pull-left[
-``` {r, eval=FALSE}
+``` {r  col_11c, eval=FALSE}
 ggplot(gdat) +
   geom_col(aes(
     x = reorder(acronym, -total_requests_received),
@@ -646,7 +649,7 @@ ggplot(gdat) +
   geom_text(aes(x = acronym,
                 y = total_requests_received,
                 label = total_requests_received),
-            size = 3, nudge_y = 45, 
+            size = 3, nudge_y = 30, 
             colour = "gray40") +
   labs(title = "FOI Statistics Q2 2019",
        x = "Government Body",
@@ -656,22 +659,20 @@ ggplot(gdat) +
           element_text(angle = 90, hjust = 1))
 ```
 
-.small[In `geom_col` we can also specify the colour of the bars, so they look a bit nicer, let's use "grass green" from the `gov_cols` palette.
-
-**And there we have it... a publication quality GOV.UK stylised chart.**]
+.small[In `geom_col` we can also specify the colour of the bars, so they look a bit nicer, let's use "grass green" from the `gov_cols` palette.]
 
 
 ]
 
 .pull-right[
-``` {r, echo=FALSE}
+``` {r  col_11p, echo=FALSE}
 ggplot(gdat) +
   geom_col(aes(x = reorder(acronym, -total_requests_received),
                y = total_requests_received),
            fill = gov_cols['grass_green']) +
   geom_text(aes(x = acronym, y = total_requests_received, 
                 label = total_requests_received),
-            size = 3, nudge_y = 45, colour = "gray40") +
+            size = 3, nudge_y = 30, colour = "gray40") +
   labs(title = "FOI Statistics Q2 2019",
        x = "Government Body",
        y = "Total Request Received") +
@@ -679,5 +680,358 @@ ggplot(gdat) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 ]
+
+---
+
+.pull-left[
+``` {r  col_12p, eval=FALSE}
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received),
+    fill = gov_cols['grass_green']) +              
+  geom_text(aes(x = acronym,
+                y = total_requests_received,
+                label = scales::comma(          #<<
+                  total_requests_received)),    #<<
+            size = 3, nudge_y = 30, 
+            colour = "gray40") +
+  scale_y_continuous(labels = scales::comma) +  #<<
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_gov() + 
+  theme(axis.text.x = 
+          element_text(angle = 90, hjust = 1))
+```
+
+.small[Finally, let's format the labels and y-axis with comma notation.
+
+**And there we have it... a publication quality GOV.UK stylised chart.**]
+
+]
+
+.pull-right[
+``` {r  col_12c, echo=FALSE}
+ggplot(gdat) +
+  geom_col(aes(x = reorder(acronym, -total_requests_received),
+               y = total_requests_received),
+           fill = gov_cols['grass_green']) +
+  geom_text(aes(x = acronym, y = total_requests_received, 
+                label = scales::comma(total_requests_received)),
+            size = 3, nudge_y = 30, colour = "gray40") +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_gov() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+]
+
+---
+
+.small[
+```{r gdat2}
+
+gdat2 <- data %>% 
+  filter(acronym == "CO", str_detect(quarter, "^Q.*")) %>%
+  select(quarter, starts_with("initial")) %>%
+  gather(key = "initial_outcome", value = "value", -quarter) %>%
+  mutate(quarter = str_replace(quarter,"^(Q\\d) (\\d*)","\\2 \\1"),
+         initial_outcome = 
+           str_replace(initial_outcome, "initial_outcome", "") %>%
+           str_replace_all("_", " ") %>%
+           str_to_title() %>%
+           str_trim() %>%
+           as_factor() %>%
+           fct_rev()) %>%
+  arrange(quarter)
+
+head(gdat2, 4)
+
+```
+]
+
+---
+
+.pull-left[
+``` {r stcol_1c, eval=FALSE}
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome))   ##<<
+```
+
+.small[To create a stacked bar chart, we need to reshape the data (per the previous slide) so that we have a variable that contains the groups we want to stack by, and then map the `fill` against the `initial_ouctome` variable.]
+
+]
+
+.pull-right[
+``` {r  stcol_1p, echo=FALSE}
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome))
+```
+]
+
+---
+
+.pull-left[
+``` {r stcol_2c, eval=FALSE}
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "dodge")   ##<<
+```
+
+.small[Adding `position=dodge` to the `geom_col` puts the columns side by side.]
+
+]
+
+.pull-right[
+``` {r stcol_2p, echo=FALSE}
+
+gdat2_1 <- gdat2 %>% filter(str_detect(quarter, "2018.*"))
+
+ggplot(gdat2_1) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "dodge")
+```
+]
+
+---
+
+.pull-left[
+``` {r stcol_3c, eval=FALSE}
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill")   ##<<
+```
+
+.small[To make a percentage stacked bar chart we can use `position = fill`.]
+
+]
+
+.pull-right[
+``` {r stcol_3p, echo=FALSE}
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill")
+```
+]
+
+---
+
+.pull-left[
+``` {r stcol_4c, eval=FALSE}
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill") +
+  scale_y_continuous(labels = scales::percent) +  #<<
+  labs(title = "Initial outcome of FOI requests",    #<<
+       subtitle = "Cabinet Office",               #<<
+       x = "Quarter",                             #<<
+       y = "Percent of FOI requests") +           #<<
+  theme_gov() +                                   #<<
+  theme(                                          #<<
+    axis.text.x = element_text(angle = 90)        #<<
+  )                                               #<<
+```
+
+.small[Let's format the y axis, add some labels, add `theme_gov()`, and rotate the x-axis labels.]
+
+]
+
+.pull-right[
+``` {r stcol_4p, echo=FALSE}
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Initial outcome of FOI requests", subtitle = "Cabinet Office",
+       x = "Quarter", y = "Percent of FOI requests") +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90)
+  )
+```
+]
+
+---
+
+.pull-left[
+``` {r stcol_5c, eval=FALSE}
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Initial outcome of FOI requests",
+       subtitle = "Cabinet Office",
+       x = "Quarter",
+       y = "Percent of FOI requests") +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",                #<<
+    legend.title = element_blank()             #<<
+  )
+```
+
+.small[We should also put the legend back]
+
+]
+
+.pull-right[
+``` {r stcol_5p, echo=FALSE}
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Initial outcome of FOI requests", subtitle = "Cabinet Office",
+       x = "Quarter", y = "Percent of FOI requests") +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank()
+  )
+```
+]
+
+---
+
+.pull-left[
+``` {r stcol_6c1, eval=FALSE}
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_manual(values = col_vals) +          #<<
+  labs(title = "Initial outcome of FOI requests",
+       subtitle = "Cabinet Office",
+       x = "Quarter",
+       y = "Percent of FOI requests") +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank()
+  )
+```
+
+.small[We can also customise the colours by providing a named character vector of colour codes to the `scale_fill_manual()` function.]
+
+``` {r stcol_6c2, eval=FALSE}
+
+col_vals <- c(
+ "Response Not Yet Provided" = "gray80",
+ "Fully Withheld" = "gray60",
+ "Partially Withheld" = 
+   unname(gov_cols["light_blue"]),
+ "Granted In Full" = 
+   unname(gov_cols["purple"])
+)
+
+```
+
+]
+
+.pull-right[
+``` {r stcol_6p, echo=FALSE}
+
+col_vals <- c(
+ "Response Not Yet Provided" = "gray80",
+ "Fully Withheld" = "gray60",
+ "Partially Withheld" = unname(gov_cols["light_blue"]),
+ "Granted In Full" = unname(gov_cols["purple"])
+)
+
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_manual(values = col_vals) +
+  labs(title = "Initial outcome of FOI requests", subtitle = "Cabinet Office",
+       x = "Quarter", y = "Percent of FOI requests") +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank()
+  )
+```
+]
+
+---
+
+.pull-left[
+``` {r stcol_7c, eval=FALSE}
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill",
+           width = 0.75) +                            #<<
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_manual(values = col_vals) +          
+  labs(title = "Initial outcome of FOI requests",
+       subtitle = "Cabinet Office",
+       x = "Quarter",
+       y = "Percent of FOI requests") +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank()
+  )
+```
+
+.small[Finally let's increase the gap between columns, which we can do by changing their `width`.]
+
+]
+
+.pull-right[
+``` {r stcol_7p, echo=FALSE}
+
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill",
+           width = 0.75) +
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_manual(values = col_vals) +
+  labs(title = "Initial outcome of FOI requests", subtitle = "Cabinet Office",
+       x = "Quarter", y = "Percent of FOI requests") +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank()
+  )
+```
+]
+
 
 

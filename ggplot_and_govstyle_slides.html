@@ -13,7 +13,7 @@
 
 class: title-slide, middle, right
 
-.title-text[ggplot and govstyle]
+.title-text[ggplot2 and govstyle]
 
 .title-sub[Making charts in R]
 
@@ -25,14 +25,14 @@ class: title-slide, middle, right
 
 ---
 
-# Introducing ggplot
+# Introducing ggplot2
 
 .pull-left[
-[ggplot](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
+[ggplot2](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
 
 Created and curated as part of the [tidyverse](https://www.tidyverse.org), *but* it uses **+** rather than **%&gt;%** to join elements.
 
-The best way to think about constructing a `ggplot` is as a series of additive layers.
+The best way to think about constructing a "ggplot" is as a series of additive layers.
 ]
 
 --
@@ -45,14 +45,14 @@ ggplot(data, aes(x = groups, y = value)) +
 
 ---
 
-# Introducing ggplot
+# Introducing ggplot2
 
 .pull-left[
-[ggplot](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
+[ggplot2](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
 
 Created and curated as part of the [tidyverse](https://www.tidyverse.org), *but* it uses **+** rather than **%&gt;%** to join elements.
 
-The best way to think about constructing a `ggplot` is as a series of additive layers.
+The best way to think about constructing a "ggplot" is as a series of additive layers.
 ]
 
 .pull-right[
@@ -66,14 +66,14 @@ ggplot(data, aes(x = groups, y = value)) +
 
 ---
 
-# Introducing ggplot
+# Introducing ggplot2
 
 .pull-left[
-[ggplot](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
+[ggplot2](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
 
 Created and curated as part of the [tidyverse](https://www.tidyverse.org), *but* it uses **+** rather than **%&gt;%** to join elements.
 
-The best way to think about constructing a `ggplot` is as a series of additive layers.
+The best way to think about constructing a "ggplot" is as a series of additive layers.
 ]
 
 .pull-right[
@@ -97,14 +97,14 @@ ggplot(data, aes(x = groups, y = value)) +
 
 ---
 
-# Introducing ggplot
+# Introducing ggplot2
 
 .pull-left[
-[ggplot](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
+[ggplot2](https://ggplot2.tidyverse.org/) is an extensive visualisation package for R.
 
 Created and curated as part of the [tidyverse](https://www.tidyverse.org), *but* it uses **+** rather than **%&gt;%** to join elements.
 
-The best way to think about constructing a `ggplot` is as a series of additive layers.
+The best way to think about constructing a "ggplot" is as a series of additive layers.
 ]
 
 .pull-right[
@@ -172,7 +172,7 @@ Creating graphs through code requires a bit more care and attention to the under
 # First things first... your data
 
 .pull-left[
-The previous tables were "wide". `ggplot` works best with "long" data, especially if you want to visualise different groups.
+The previous tables were "wide". A ggplot() chart works best with "long" data, especially if you want to visualise different groups.
 ]
 
 --
@@ -200,7 +200,7 @@ The previous tables were "wide". `ggplot` works best with "long" data, especiall
 # First things first... your data
 
 .pull-left[
-The previous tables were "wide". `ggplot` works best with "long" data, especially if you want to visualise different groups.
+The previous tables were "wide". A ggplot() chart works best with "long" data, especially if you want to visualise different groups.
 ]
 
 .pull-right[
@@ -242,7 +242,7 @@ The previous tables were "wide". `ggplot` works best with "long" data, especiall
 
 # Second things second... remember layers
 
-.pull-left[`ggplot` is additive, when you read/write `+` in your code think of it as 'and then'. And, always use a new line after the `+`.
+.pull-left[`ggplot()` charts are additive, when you read/write `+` in your code think of it as 'and then'. And, always use a new line after the `+`.
 
 This way you'll remember that each layer builds on the previous one.]
 
@@ -263,7 +263,7 @@ ggplot(data, aes(x = groups, y = value)) +
 
 # Second things second... remember layers
 
-.pull-left[`ggplot` is additive, when you read/write `+` in your code think of it as 'and then'. And, always use a new line after the `+`.
+.pull-left[`ggplot()` charts are additive, when you read/write `+` in your code think of it as 'and then'. And, always use a new line after the `+`.
 
 This way you'll remember that each layer builds on the previous one.]
 
@@ -360,12 +360,14 @@ head(gdat, 5)
 ggplot()
 ```
 
-.small[The fundamentals of a plot are a call to `ggplot()`, from the {ggplot2} pacakge.]
+.small[The fundamentals of a plot are a call to `ggplot()`, from the {ggplot2} package.
+
+Yes this is confusing. **`ggplot2`** is the package, **`ggplot`** is the function. There is an old (very old) ggplot package, but you shouldn't install or use this.]
 
 ]
 
 .pull-right[
-![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+![](ggplot_and_govstyle_slides_files/figure-html/col_1p-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -381,7 +383,7 @@ ggplot()
 ]
 
 .pull-right[
-![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+![](ggplot_and_govstyle_slides_files/figure-html/col_2p-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -394,12 +396,12 @@ ggplot(gdat) +
 *              y = total_requests_received))
 ```
 
-.small[To draw data you need to add (with a plus, like in maths) a `geom` (a geometric layer). A `geom` requires data (unless otherwise sepcified it inherits the data from the `ggplot()` call) and a mapping (which provides a set of aesthetics, through the `aes(...)` function)]
+.small[To draw data you need to add (with a plus, like in maths) a `geom` (a geometric layer). A `geom` requires data (unless otherwise specified it inherits the data from the `ggplot()` call) and a mapping (which provides a set of aesthetics, through the `aes(...)` function)]
 
 ]
 
 .pull-right[
-![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+![](ggplot_and_govstyle_slides_files/figure-html/col_3p-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -413,12 +415,12 @@ ggplot(gdat) +
     y = total_requests_received))
 ```
 
-.small[`ggplot` will sort character variables alphabetically, you either need to convert or coerce them into a factor that you can then order, the easiest way is to use the `reorder()` command, but more complex methods exist via the {forcats} package.]
+.small[`ggplot()` will sort character variables alphabetically, you either need to convert or coerce them into a factor that you can then order, the easiest way is to use the `reorder()` command, but more complex methods exist via the {forcats} package.]
 
 ]
 
 .pull-right[
-![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+![](ggplot_and_govstyle_slides_files/figure-html/col_4p-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -440,7 +442,7 @@ ggplot(gdat) +
 ]
 
 .pull-right[
-![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+![](ggplot_and_govstyle_slides_files/figure-html/col_5p-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -463,7 +465,7 @@ ggplot(gdat) +
 ]
 
 .pull-right[
-![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-29-1.png)&lt;!-- --&gt;
+![](ggplot_and_govstyle_slides_files/figure-html/col_6p-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -488,7 +490,7 @@ ggplot(gdat) +
 ]
 
 .pull-right[
-![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-31-1.png)&lt;!-- --&gt;
+![](ggplot_and_govstyle_slides_files/figure-html/col_7p-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -500,7 +502,7 @@ ggplot(gdat) +
 ]
 
 .pull-right[
-![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-32-1.png)&lt;!-- --&gt;
+![](ggplot_and_govstyle_slides_files/figure-html/govcols-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -525,7 +527,7 @@ ggplot(gdat) +
 ]
 
 .pull-right[
-![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-34-1.png)&lt;!-- --&gt;
+![](ggplot_and_govstyle_slides_files/figure-html/col_8p-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -553,7 +555,7 @@ ggplot(gdat) +
 ]
 
 .pull-right[
-![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-36-1.png)&lt;!-- --&gt;
+![](ggplot_and_govstyle_slides_files/figure-html/col_9p-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -568,7 +570,7 @@ ggplot(gdat) +
   geom_text(aes(x = acronym,
                 y = total_requests_received,
                 label = total_requests_received),
-            size = 3, nudge_y = 45, 
+            size = 3, nudge_y = 30, 
 *           colour = "gray40") +
   labs(title = "FOI Statistics Q2 2019",
        x = "Government Body",
@@ -583,7 +585,7 @@ ggplot(gdat) +
 ]
 
 .pull-right[
-![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-38-1.png)&lt;!-- --&gt;
+![](ggplot_and_govstyle_slides_files/figure-html/col_10p-1.png)&lt;!-- --&gt;
 ]
 
 
@@ -600,7 +602,7 @@ ggplot(gdat) +
   geom_text(aes(x = acronym,
                 y = total_requests_received,
                 label = total_requests_received),
-            size = 3, nudge_y = 45, 
+            size = 3, nudge_y = 30, 
             colour = "gray40") +
   labs(title = "FOI Statistics Q2 2019",
        x = "Government Body",
@@ -610,15 +612,277 @@ ggplot(gdat) +
           element_text(angle = 90, hjust = 1))
 ```
 
-.small[In `geom_col` we can also specify the colour of the bars, so they look a bit nicer, let's use "grass green" from the `gov_cols` palette.
-
-**And there we have it... a publication quality GOV.UK stylised chart.**]
+.small[In `geom_col` we can also specify the colour of the bars, so they look a bit nicer, let's use "grass green" from the `gov_cols` palette.]
 
 
 ]
 
 .pull-right[
-![](ggplot_and_govstyle_slides_files/figure-html/unnamed-chunk-40-1.png)&lt;!-- --&gt;
+![](ggplot_and_govstyle_slides_files/figure-html/col_11p-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat) +
+  geom_col(aes(
+    x = reorder(acronym, -total_requests_received),
+    y = total_requests_received),
+    fill = gov_cols['grass_green']) +              
+  geom_text(aes(x = acronym,
+                y = total_requests_received,
+*               label = scales::comma(
+*                 total_requests_received)),
+            size = 3, nudge_y = 30, 
+            colour = "gray40") +
+* scale_y_continuous(labels = scales::comma) +
+  labs(title = "FOI Statistics Q2 2019",
+       x = "Government Body",
+       y = "Total Request Received") +
+  theme_gov() + 
+  theme(axis.text.x = 
+          element_text(angle = 90, hjust = 1))
+```
+
+.small[Finally, let's format the labels and y-axis with comma notation.
+
+**And there we have it... a publication quality GOV.UK stylised chart.**]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/col_12c-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.small[
+
+```r
+gdat2 &lt;- data %&gt;% 
+  filter(acronym == "CO", str_detect(quarter, "^Q.*")) %&gt;%
+  select(quarter, starts_with("initial")) %&gt;%
+  gather(key = "initial_outcome", value = "value", -quarter) %&gt;%
+  mutate(quarter = str_replace(quarter,"^(Q\\d) (\\d*)","\\2 \\1"),
+         initial_outcome = 
+           str_replace(initial_outcome, "initial_outcome", "") %&gt;%
+           str_replace_all("_", " ") %&gt;%
+           str_to_title() %&gt;%
+           str_trim() %&gt;%
+           as_factor() %&gt;%
+           fct_rev()) %&gt;%
+  arrange(quarter)
+
+head(gdat2, 4)
+```
+
+```
+## # A tibble: 4 x 3
+##   quarter initial_outcome           value
+##   &lt;chr&gt;   &lt;fct&gt;                     &lt;dbl&gt;
+## 1 2010 Q1 Granted In Full              35
+## 2 2010 Q1 Partially Withheld           10
+## 3 2010 Q1 Fully Withheld               79
+## 4 2010 Q1 Response Not Yet Provided    19
+```
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+*              fill = initial_outcome))   #
+```
+
+.small[To create a stacked bar chart, we need to reshape the data (per the previous slide) so that we have a variable that contains the groups we want to stack by, and then map the `fill` against the `initial_ouctome` variable.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/stcol_1p-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+*          position = "dodge")   #
+```
+
+.small[Adding `position=dodge` to the `geom_col` puts the columns side by side.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/stcol_2p-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+*          position = "fill")   #
+```
+
+.small[To make a percentage stacked bar chart we can use `position = fill`.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/stcol_3p-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill") +
+* scale_y_continuous(labels = scales::percent) +
+* labs(title = "Initial outcome of FOI requests",
+*      subtitle = "Cabinet Office",
+*      x = "Quarter",
+*      y = "Percent of FOI requests") +
+* theme_gov() +
+* theme(
+*   axis.text.x = element_text(angle = 90)
+* )
+```
+
+.small[Let's format the y axis, add some labels, add `theme_gov()`, and rotate the x-axis labels.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/stcol_4p-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Initial outcome of FOI requests",
+       subtitle = "Cabinet Office",
+       x = "Quarter",
+       y = "Percent of FOI requests") +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+*   legend.position = "bottom",
+*   legend.title = element_blank()
+  )
+```
+
+.small[We should also put the legend back]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/stcol_5p-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+* scale_fill_manual(values = col_vals) +
+  labs(title = "Initial outcome of FOI requests",
+       subtitle = "Cabinet Office",
+       x = "Quarter",
+       y = "Percent of FOI requests") +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank()
+  )
+```
+
+.small[We can also customise the colours by providing a named character vector of colour codes to the `scale_fill_manual()` function.]
+
+
+```r
+col_vals &lt;- c(
+ "Response Not Yet Provided" = "gray80",
+ "Fully Withheld" = "gray60",
+ "Partially Withheld" = 
+   unname(gov_cols["light_blue"]),
+ "Granted In Full" = 
+   unname(gov_cols["purple"])
+)
+```
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/stcol_6p-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill",
+*          width = 0.75) +
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_manual(values = col_vals) +          
+  labs(title = "Initial outcome of FOI requests",
+       subtitle = "Cabinet Office",
+       x = "Quarter",
+       y = "Percent of FOI requests") +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank()
+  )
+```
+
+.small[Finally let's increase the gap between columns, which we can do by changing their `width`.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/stcol_7p-1.png)&lt;!-- --&gt;
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
