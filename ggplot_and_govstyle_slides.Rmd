@@ -305,10 +305,14 @@ raw_data <- read_csv("https://assets.publishing.service.gov.uk/government/upload
 data <- raw_data %>%
   select(quarter, government_body, total_requests_received, total_resolvable_requests,
          starts_with("initial_outcome")) %>%
-    mutate(acronym = map_chr(str_extract_all(government_body, "[A-Z]"), ~paste0(., collapse = "")))
+    mutate(acronym = map_chr(str_extract_all(government_body, "[A-Z]"), ~paste0(., collapse = "")),
+           quarter = str_replace(quarter,"^(Q\\d) (\\d*)","\\2 \\1"))
 ```
 
 ``` {r data2, echo=FALSE}
+
+data <- data %>% select(quarter, acronym, everything())
+
 glimpse(data)
 ```
 
@@ -316,7 +320,7 @@ glimpse(data)
 
 ``` {r gdat}
 gdat <- data %>% 
-  filter (quarter == "Q2 2019", total_requests_received >100) %>%
+  filter (quarter == "2019 Q2", total_requests_received >100) %>%
   arrange(total_requests_received)
 
 head(gdat, 5)
@@ -735,11 +739,10 @@ ggplot(gdat) +
 ```{r gdat2}
 
 gdat2 <- data %>% 
-  filter(acronym == "CO", str_detect(quarter, "^Q.*")) %>%
+  filter(acronym == "CO", str_detect(quarter, "Q.*")) %>%
   select(quarter, starts_with("initial")) %>%
   gather(key = "initial_outcome", value = "value", -quarter) %>%
-  mutate(quarter = str_replace(quarter,"^(Q\\d) (\\d*)","\\2 \\1"),
-         initial_outcome = 
+  mutate(initial_outcome = 
            str_replace(initial_outcome, "initial_outcome", "") %>%
            str_replace_all("_", " ") %>%
            str_to_title() %>%
@@ -1034,4 +1037,287 @@ ggplot(gdat2) +
 ]
 
 
+---
 
+``` {r gdat3}
+
+gdat3 <- data %>%
+  filter(str_detect(acronym,"^CO$|^MJ$|^DEFRA$|^DT$"), 
+         str_detect(quarter, ".*Q.*")) %>%
+  select(quarter, acronym, government_body, total_requests_received, total_resolvable_requests) %>%
+  mutate(perc_resolvable = total_resolvable_requests / total_requests_received) %>%
+  arrange(quarter) %>%
+  mutate(quarter = as_factor(quarter))
+
+glimpse(gdat3)
+
+```
+
+---
+
+.pull-left[
+``` {r line_1c, eval=FALSE}
+
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank())
+
+```
+
+.small[Here's a line chart of the percentage of resolvable FOI requests by department.]
+
+]
+
+.pull-right[
+``` {r line_1p, echo=FALSE}
+
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank())
+
+```
+]
+
+---
+
+.pull-left[
+``` {r line_2c, eval=FALSE}
+
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  guides(colour = guide_legend(                 #<<
+    nrow = 2, byrow = TRUE)) +                  #<<
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.key = element_rect(fill = NA))       #<<
+
+```
+
+.small[We can add the `guides` and `guide_legend` functions to modify the legend and have it span over two rows. Let's also remove the default grey background from the legend keys.]
+
+]
+
+.pull-right[
+``` {r line_2p, echo=FALSE}
+
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  guides(colour = guide_legend(nrow = 2, byrow = TRUE)) +  
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.key = element_rect(fill = NA))
+
+```
+]
+
+---
+
+.pull-left[
+``` {r line_3c, eval=FALSE}
+
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+  scale_y_continuous(limits = c(0,1),            #<<
+                     labels = scales::percent) +  #<<
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  guides(colour = guide_legend(
+    nrow = 2, byrow = TRUE)) +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.key = element_rect(fill = NA))
+
+```
+
+.small[Let's also adjust the y-axis to range from 0% to 100%. We'll add `scale_y_continuous` as we also want to change the formatting, but adding `ylim(0,1)` is another way to set the limits of the y-axis.]
+
+]
+
+.pull-right[
+``` {r line_3p, echo=FALSE}
+
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+  scale_y_continuous(limits = c(0,1),
+                     labels = scales::percent) +
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  guides(colour = guide_legend(nrow = 2, byrow = TRUE)) +  
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.key = element_rect(fill = NA))
+
+```
+]
+
+---
+
+.pull-left[
+``` {r line_4c, eval=FALSE}
+
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+  scale_y_continuous(limits = c(0,1),
+                     labels = scales::percent) +
+  scale_gov("colour") +                           #<<
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  guides(colour = guide_legend(
+    nrow = 2, byrow = TRUE)) +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.key = element_rect(fill = NA))
+
+```
+
+.small[The `scale_gov()` function from {govstyle} allows you to automatically apply the `govcols` palette to either the fill or colour grouping rather writing a custom call to `scale_*_manual()` as shown in the stacked bar chart.]
+
+]
+
+.pull-right[
+``` {r line_4p, echo=FALSE}
+
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+  scale_y_continuous(limits = c(0,1),
+                     labels = scales::percent) +
+  scale_gov("colour") +
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  guides(colour = guide_legend(nrow = 2, byrow = TRUE)) +  
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.key = element_rect(fill = NA))
+
+```
+]
+
+---
+
+.pull-left[
+``` {r line_5c, eval=FALSE}
+
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+  geom_point(aes(x = quarter,                  #<<
+                 y = perc_resolvable,          #<<
+                 colour = government_body),    #<<
+             size - 0.75) +                    #<<
+  scale_y_continuous(limits = c(0,1),
+                     labels = scales::percent) +
+  scale_gov("colour") +                           
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  guides(colour = guide_legend(
+    nrow = 2, byrow = TRUE)) +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.key = element_rect(fill = NA))
+
+```
+
+.small[We can also add a call to `geom_point()`, as we've already specified a colour mapping via `scale_gov()` this will be automatically picked up.]
+
+]
+
+.pull-right[
+``` {r line_5p, echo=FALSE}
+
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+   geom_point(aes(x = quarter,
+                 y = perc_resolvable,
+                 colour = government_body),
+              size = 0.75) +
+  scale_y_continuous(limits = c(0,1),
+                     labels = scales::percent) +
+  scale_gov("colour") +
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  guides(colour = guide_legend(nrow = 2, byrow = TRUE)) +  
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.key = element_rect(fill = NA))
+
+```
+]

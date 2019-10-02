@@ -307,14 +307,16 @@ We'll be using the Cabinet Office's [FOI Statistics (Q2 2019 release)](https://w
 data &lt;- raw_data %&gt;%
   select(quarter, government_body, total_requests_received, total_resolvable_requests,
          starts_with("initial_outcome")) %&gt;%
-    mutate(acronym = map_chr(str_extract_all(government_body, "[A-Z]"), ~paste0(., collapse = "")))
+    mutate(acronym = map_chr(str_extract_all(government_body, "[A-Z]"), ~paste0(., collapse = "")),
+           quarter = str_replace(quarter,"^(Q\\d) (\\d*)","\\2 \\1"))
 ```
 
 
 ```
 ## Observations: 1,985
 ## Variables: 9
-## $ quarter                                   &lt;chr&gt; "Q2 2019", "Q2 2019", …
+## $ quarter                                   &lt;chr&gt; "2019 Q2", "2019 Q2", …
+## $ acronym                                   &lt;chr&gt; "AGO", "DBEIS", "CC", …
 ## $ government_body                           &lt;chr&gt; "Attorney General's Of…
 ## $ total_requests_received                   &lt;dbl&gt; 50, 191, 186, 35, 344,…
 ## $ total_resolvable_requests                 &lt;dbl&gt; 13, 154, 154, 31, 219,…
@@ -322,7 +324,6 @@ data &lt;- raw_data %&gt;%
 ## $ initial_outcome_partially_withheld        &lt;dbl&gt; 2, 24, 44, 12, 21, 12,…
 ## $ initial_outcome_fully_withheld            &lt;dbl&gt; 3, 62, 64, 12, 83, 62,…
 ## $ initial_outcome_response_not_yet_provided &lt;dbl&gt; 0, 14, 1, 0, 47, 1, 1,…
-## $ acronym                                   &lt;chr&gt; "AGO", "DBEIS", "CC", …
 ```
 
 ---
@@ -330,7 +331,7 @@ data &lt;- raw_data %&gt;%
 
 ```r
 gdat &lt;- data %&gt;% 
-  filter (quarter == "Q2 2019", total_requests_received &gt;100) %&gt;%
+  filter (quarter == "2019 Q2", total_requests_received &gt;100) %&gt;%
   arrange(total_requests_received)
 
 head(gdat, 5)
@@ -338,17 +339,17 @@ head(gdat, 5)
 
 ```
 ## # A tibble: 5 x 9
-##   quarter government_body total_requests_… total_resolvabl…
-##   &lt;chr&gt;   &lt;chr&gt;                      &lt;dbl&gt;            &lt;dbl&gt;
-## 1 Q2 2019 Office for Sta…              107               79
-## 2 Q2 2019 Department for…              118               71
-## 3 Q2 2019 Office of Gas …              141              135
-## 4 Q2 2019 Crown Prosecut…              150              114
-## 5 Q2 2019 Department for…              168              118
-## # … with 5 more variables: initial_outcome_granted_in_full &lt;dbl&gt;,
+##   quarter acronym government_body total_requests_… total_resolvabl…
+##   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                      &lt;dbl&gt;            &lt;dbl&gt;
+## 1 2019 Q2 OSECSS  Office for Sta…              107               79
+## 2 2019 Q2 DDCMS   Department for…              118               71
+## 3 2019 Q2 OGEM    Office of Gas …              141              135
+## 4 2019 Q2 CPS     Crown Prosecut…              150              114
+## 5 2019 Q2 DEFRA   Department for…              168              118
+## # … with 4 more variables: initial_outcome_granted_in_full &lt;dbl&gt;,
 ## #   initial_outcome_partially_withheld &lt;dbl&gt;,
 ## #   initial_outcome_fully_withheld &lt;dbl&gt;,
-## #   initial_outcome_response_not_yet_provided &lt;dbl&gt;, acronym &lt;chr&gt;
+## #   initial_outcome_response_not_yet_provided &lt;dbl&gt;
 ```
 
 ---
@@ -662,11 +663,10 @@ ggplot(gdat) +
 
 ```r
 gdat2 &lt;- data %&gt;% 
-  filter(acronym == "CO", str_detect(quarter, "^Q.*")) %&gt;%
+  filter(acronym == "CO", str_detect(quarter, "Q.*")) %&gt;%
   select(quarter, starts_with("initial")) %&gt;%
   gather(key = "initial_outcome", value = "value", -quarter) %&gt;%
-  mutate(quarter = str_replace(quarter,"^(Q\\d) (\\d*)","\\2 \\1"),
-         initial_outcome = 
+  mutate(initial_outcome = 
            str_replace(initial_outcome, "initial_outcome", "") %&gt;%
            str_replace_all("_", " ") %&gt;%
            str_to_title() %&gt;%
@@ -883,6 +883,197 @@ ggplot(gdat2) +
 
 .pull-right[
 ![](ggplot_and_govstyle_slides_files/figure-html/stcol_7p-1.png)&lt;!-- --&gt;
+]
+
+
+---
+
+
+```r
+gdat3 &lt;- data %&gt;%
+  filter(str_detect(acronym,"^CO$|^MJ$|^DEFRA$|^DT$"), 
+         str_detect(quarter, ".*Q.*")) %&gt;%
+  select(quarter, acronym, government_body, total_requests_received, total_resolvable_requests) %&gt;%
+  mutate(perc_resolvable = total_resolvable_requests / total_requests_received) %&gt;%
+  arrange(quarter) %&gt;%
+  mutate(quarter = as_factor(quarter))
+
+glimpse(gdat3)
+```
+
+```
+## Observations: 152
+## Variables: 6
+## $ quarter                   &lt;fct&gt; 2010 Q1, 2010 Q1, 2010 Q1, 2010 Q1, 20…
+## $ acronym                   &lt;chr&gt; "CO", "DEFRA", "DT", "MJ", "CO", "DEFR…
+## $ government_body           &lt;chr&gt; "Cabinet Office", "Department for Envi…
+## $ total_requests_received   &lt;dbl&gt; 236, 143, 794, 808, 235, 127, 605, 805…
+## $ total_resolvable_requests &lt;dbl&gt; 143, 107, 672, 498, 149, 103, 439, 498…
+## $ perc_resolvable           &lt;dbl&gt; 0.6059322, 0.7482517, 0.8463476, 0.616…
+```
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank())
+```
+
+.small[Here's a line chart of the percentage of resolvable FOI requests by department.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/line_1p-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+* guides(colour = guide_legend(
+*   nrow = 2, byrow = TRUE)) +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+*   legend.key = element_rect(fill = NA))
+```
+
+.small[We can add the `guides` and `guide_legend` functions to modify the legend and have it span over two rows. Let's also remove the default grey background from the legend keys.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/line_2p-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+* scale_y_continuous(limits = c(0,1),
+*                    labels = scales::percent) +
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  guides(colour = guide_legend(
+    nrow = 2, byrow = TRUE)) +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.key = element_rect(fill = NA))
+```
+
+.small[Let's also adjust the y-axis to range from 0% to 100%. We'll add `scale_y_continuous` as we also want to change the formatting, but adding `ylim(0,1)` is another way to set the limits of the y-axis.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/line_3p-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+  scale_y_continuous(limits = c(0,1),
+                     labels = scales::percent) +
+* scale_gov("colour") +
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  guides(colour = guide_legend(
+    nrow = 2, byrow = TRUE)) +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.key = element_rect(fill = NA))
+```
+
+.small[The `scale_gov()` function from {govstyle} allows you to automatically apply the `govcols` palette to either the fill or colour grouping rather writing a custom call to `scale_*_manual()` as shown in the stacked bar chart.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/line_4p-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+ggplot(gdat3) +
+  geom_line(aes(x = quarter, 
+                y = perc_resolvable, 
+                colour = government_body, 
+                group = government_body)) +
+* geom_point(aes(x = quarter,
+*                y = perc_resolvable,
+*                colour = government_body),
+*            size - 0.75) +
+  scale_y_continuous(limits = c(0,1),
+                     labels = scales::percent) +
+  scale_gov("colour") +                           
+  labs(title = 
+         "Percent of resolvable FOI requests",
+       y = "", x = "Quarter") +
+  guides(colour = guide_legend(
+    nrow = 2, byrow = TRUE)) +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.key = element_rect(fill = NA))
+```
+
+.small[We can also add a call to `geom_point()`, as we've already specified a colour mapping via `scale_gov()` this will be automatically picked up.]
+
+]
+
+.pull-right[
+![](ggplot_and_govstyle_slides_files/figure-html/line_5p-1.png)&lt;!-- --&gt;
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
