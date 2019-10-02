@@ -33,6 +33,9 @@ Adapted from Matt Dray's {gdstheme} https://github.com/matt-dray/gdstheme
 
 .title-slide {
   background-color: #005abb;  /* grey background */
+  background-image: url("imgs/co_logo_sml_white.png");
+  background-position: 5% 90%;
+  background-size: 15%;
   color: #fff;                /* black text */
   border-bottom: 0;           /* no border */
   text-shadow: 0 0 0;         /* no text shadow */
