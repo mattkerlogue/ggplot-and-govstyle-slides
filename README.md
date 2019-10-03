@@ -8,12 +8,12 @@ It's heavily inspired by Gina Reynold's excellent [ggplot flipbook](https://evam
 
 In order to follow the code in this flipbook you'll need to install the tidyverse family and govstyle packages.
 
-Install [tidyverse](https://www.tidyverse.org/)
+Install [tidyverse](https://www.tidyverse.org/):
 ``` r
 install.packages("tidyverse")
 ```
 
-Install [govstyle](http://ukgovdatascience.github.io/govstyle/)
+Install [govstyle](http://ukgovdatascience.github.io/govstyle/):
 ``` r
 remotes::install_github("ukgovdatascience/govstyle")
 ```
