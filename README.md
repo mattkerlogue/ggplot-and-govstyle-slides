@@ -13,7 +13,7 @@ Install [tidyverse](https://www.tidyverse.org/)
 install.packages("tidyverse")
 ```
 
-Install [govstyle]
+Install [govstyle](http://ukgovdatascience.github.io/govstyle/)
 ``` r
 remotes::install_github("ukgovdatascience/govstyle")
 ```
