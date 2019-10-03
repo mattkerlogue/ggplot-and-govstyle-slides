@@ -118,7 +118,7 @@ ggplot(data, aes(x = groups, y = value)) +
 ```
 
 
-1. Initate the plot
+1. Initiate the plot
 1. Add plot layer(s) [geoms]
 1. Add layout/theme
 
@@ -1408,7 +1408,7 @@ It's good practice to implement a clear and coherent structure for your ggplot c
 Call `ggplot()`, then:
 
 * *add* graphical layers with `geom_*()` functions
-* *add* scale definitions/modifers
+* *add* scale definitions/modifiers
 * *add* labels (and guides)
 * *add* theme components
 
