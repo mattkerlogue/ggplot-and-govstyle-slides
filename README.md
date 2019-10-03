@@ -15,5 +15,5 @@ install.packages("tidyverse")
 
 Install [govstyle]
 ``` r
-remotes::install_github("https://github.com/ukgovdatascience/govstyle")
+remotes::install_github("ukgovdatascience/govstyle")
 ```
