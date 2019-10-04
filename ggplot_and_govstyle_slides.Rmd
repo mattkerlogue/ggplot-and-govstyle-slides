@@ -1010,7 +1010,7 @@ ggplot(gdat2) +
   )
 ```
 
-.small[Finally let's increase the gap between columns, which we can do by changing their `width`.]
+.small[Let's increase the gap between columns, which we can do by changing their `width`.]
 
 ]
 
@@ -1035,6 +1035,59 @@ ggplot(gdat2) +
   )
 ```
 ]
+
+---
+
+.pull-left[
+``` {r stcol_8c, eval=FALSE}
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill",
+           width = 0.75) +                            
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_manual(values = col_vals) +          
+  labs(title = "Initial outcome of FOI requests",
+       subtitle = "Cabinet Office",
+       x = "Quarter",
+       y = "Percent of FOI requests") +
+  coord_flip() +                                 #<<
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank()
+  )
+```
+
+.small[We can also quite easily convert it into a horizontal bar chart by adding `coord_flip()`.]
+
+]
+
+.pull-right[
+``` {r stcol_8p, echo=FALSE}
+
+ggplot(gdat2) +
+  geom_col(aes(x = quarter, 
+               y = value, 
+               fill = initial_outcome),
+           position = "fill",
+           width = 0.75) +
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_manual(values = col_vals) +
+  labs(title = "Initial outcome of FOI requests", subtitle = "Cabinet Office",
+       x = "Quarter", y = "Percent of FOI requests") +
+  coord_flip() +
+  theme_gov() +
+  theme(
+    axis.text.x = element_text(angle = 90),
+    legend.position = "bottom",
+    legend.title = element_blank()
+  )
+```
+]
+
 
 
 ---
